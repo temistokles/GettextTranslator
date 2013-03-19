@@ -44,11 +44,11 @@ use Nette, Nette\Utils\Strings;
  * @example    http://addons.nettephp.com/gettext-translator
  * @package    NetteTranslator\Gettext
  * @version    0.5
- *
- * @todo refactor (according to Nella Project by Vrtak-CZ)
+ * @todo       refactor (according to Nella Project by Vrtak-CZ)
  */
 class Gettext extends Nette\Object implements IEditable
 {
+
 	const SESSION_NAMESPACE = 'NetteTranslator-Gettext';
 	const CACHE_ENABLE = TRUE;
 	const CACHE_DISABLE = FALSE;
@@ -80,11 +80,10 @@ class Gettext extends Nette\Object implements IEditable
 	/** @var Nette\Http\Response */
 	private $httpResponse;
 
-
 	/**
 	 * Constructor
 	 *
-	 * @param array $files
+	 * @param array  $files
 	 * @param string $lang
 	 */
 	public function __construct(Nette\Http\Session $session, Nette\Caching\Storages\FileStorage $cacheStorage, Nette\Http\Response $httpResponse)
@@ -105,6 +104,7 @@ class Gettext extends Nette\Object implements IEditable
 
 	/**
 	 * Adds a file to parse
+	 *
 	 * @param string $dir
 	 * @param string $identifier
 	 * @return $this
@@ -117,7 +117,6 @@ class Gettext extends Nette\Object implements IEditable
 			throw new \InvalidArgumentException("Language file identified '$identifier' is already registered.");
 		}
 
-
 		if (is_dir($dir)) {
 			$this->files[$identifier] = $dir;
 		} else {
@@ -126,7 +125,6 @@ class Gettext extends Nette\Object implements IEditable
 
 		return $this;
 	}
-
 
 	/**
 	 * Load data
@@ -152,7 +150,11 @@ class Gettext extends Nette\Object implements IEditable
 				}
 
 				if ($this->cacheMode) {
-					$cache->save('dictionary-' . $this->lang, $this->dictionary, array('expire' => time() * 60 * 60 * 2, 'files' => $files, 'tags' => array('dictionary-' . $this->lang)));
+					$cache->save('dictionary-' . $this->lang, $this->dictionary, array(
+						'expire' => time() * 60 * 60 * 2,
+						'files'  => $files,
+						'tags'   => array('dictionary-' . $this->lang)
+					));
 				}
 			}
 			$this->loaded = TRUE;
@@ -174,6 +176,7 @@ class Gettext extends Nette\Object implements IEditable
 		$endian = FALSE;
 		$read = function ($bytes) use ($f, $endian) {
 			$data = fread($f, 4 * $bytes);
+
 			return $endian === FALSE ? unpack('V' . $bytes, $data) : unpack('N' . $bytes, $data);
 		};
 
@@ -248,7 +251,7 @@ class Gettext extends Nette\Object implements IEditable
 	 * Translates the given string.
 	 *
 	 * @param string $message
-	 * @param int $form plural form (positive number)
+	 * @param int    $form plural form (positive number)
 	 * @return string
 	 */
 	public function translate($message, $form = 1)
@@ -270,7 +273,6 @@ class Gettext extends Nette\Object implements IEditable
 			$tmp = preg_replace('/([a-z]+)/', '$$1', "n=$form;" . $this->metadata[$files[0]]['Plural-Forms']);
 			eval($tmp);
 
-
 			$message = $this->dictionary[$message]['translation'];
 			if (!empty($message)) {
 				$message = (is_array($message) && $plural !== NULL && isset($message[$plural])) ? $message[$plural] : $message;
@@ -281,7 +283,10 @@ class Gettext extends Nette\Object implements IEditable
 				if (!isset($space->newStrings[$this->lang])) {
 					$space->newStrings[$this->lang] = array();
 				}
-				$space->newStrings[$this->lang][$message] = empty($message_plural) ? array($message) : array($message, $message_plural);
+				$space->newStrings[$this->lang][$message] = empty($message_plural) ? array($message) : array(
+					$message,
+					$message_plural
+				);
 			}
 			if ($form > 1 && !empty($message_plural)) {
 				$message = $message_plural;
@@ -309,6 +314,7 @@ class Gettext extends Nette\Object implements IEditable
 			}
 			$message = str_replace(array("#label", "#name", "#value"), array("%label", "%name", "%value"), $message);
 		}
+
 		return $message;
 	}
 
@@ -325,6 +331,7 @@ class Gettext extends Nette\Object implements IEditable
 		if (isset($this->metadata[$files[0]]['Plural-Forms'])) {
 			return (int)substr($this->metadata[$files[0]]['Plural-Forms'], 9, 1);
 		}
+
 		return 1;
 	}
 
@@ -359,7 +366,6 @@ class Gettext extends Nette\Object implements IEditable
 			}
 		}
 
-
 		if ($file) {
 			return array_merge($newStrings, $result);
 		} else {
@@ -373,9 +379,9 @@ class Gettext extends Nette\Object implements IEditable
 		}
 	}
 
-
 	/**
 	 * Get loaded files
+	 *
 	 * @return array
 	 */
 	public function getFiles()
@@ -389,7 +395,7 @@ class Gettext extends Nette\Object implements IEditable
 	 * Set translation string(s)
 	 *
 	 * @param string|array $message original string(s)
-	 * @param string|array $string translation string(s)
+	 * @param string|array $string  translation string(s)
 	 */
 	public function setTranslation($message, $string, $file)
 	{
@@ -603,6 +609,7 @@ class Gettext extends Nette\Object implements IEditable
 
 	/**
 	 * Returns current language
+	 *
 	 * @return string
 	 * @throws \Nette\InvalidStateException
 	 */
@@ -611,11 +618,13 @@ class Gettext extends Nette\Object implements IEditable
 		if (empty($this->lang)) {
 			throw new Nette\InvalidStateException('Language must be defined.');
 		}
+
 		return $this->lang;
 	}
 
 	/**
 	 * Sets a new language
+	 *
 	 * @return NetteTranslator\Gettext (supports fluent interface)
 	 */
 	public function setLang($lang)

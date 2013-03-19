@@ -1,14 +1,15 @@
 <?php
+
+namespace NetteTranslator\DI;
+
 /**
- * Author: Paulík Miroslav
- * Date:   16.3.13
+ * DI extension for NetteTranslator
+ *
+ * @author: Paulík Miroslav
  */
-
-namespace NetteTranslator;
-
-
 class NetteTranslatorExtension extends \Nette\Config\CompilerExtension
 {
+
 	public $defaults = array(
 		'lang'      => 'en',
 		'cacheMode' => Gettext::CACHE_DISABLE,
@@ -22,10 +23,10 @@ class NetteTranslatorExtension extends \Nette\Config\CompilerExtension
 
 		$translator = $builder->addDefinition($this->prefix('translator'));
 		$translator->setClass('NetteTranslator\Gettext', array(
-															  '@session',
-															  '@cacheStorage',
-															  '@httpResponse'
-														 ));
+			'@session',
+			'@cacheStorage',
+			'@httpResponse'
+		));
 		$translator->addSetup('setLang', $config['lang']);
 		foreach ($config["files"] as $id => $file) {
 			$translator->addSetup('addFile', $file, $id);

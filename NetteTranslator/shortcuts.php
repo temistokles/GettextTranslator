@@ -27,8 +27,6 @@
 
 // no namespace
 
-
-
 /**
  * Translates the given string.
  *
@@ -44,8 +42,8 @@ function __($message)
  * Translates the given string with plural.
  *
  * @param string $single
- * @param string $plural 
- * @param int $muber plural form (positive number)
+ * @param string $plural
+ * @param int    $muber plural form (positive number)
  * @return string
  */
 function _n($single, $plural, $number)
@@ -57,7 +55,7 @@ function _n($single, $plural, $number)
  * Translates the given string with vsprintf.
  *
  * @param string $message
- * @paran array $args for vsprintf 
+ * @paran array $args for vsprintf
  * @return string
  */
 function _x($message, array $args)
@@ -69,8 +67,8 @@ function _x($message, array $args)
  * Translates the given string with plural and vsprintf.
  *
  * @param string $single
- * @param string $plural 
- * @param int $muber plural form (positive number)
+ * @param string $plural
+ * @param int    $muber plural form (positive number)
  * @return string
  */
 function _nx($single, $plural, $number, array $args)

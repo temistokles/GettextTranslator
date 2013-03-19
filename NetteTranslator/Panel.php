@@ -14,6 +14,7 @@ use Nette;
  */
 class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 {
+
 	const XHR_HEADER = 'X-Translation-Client';
 	const SESSION_NAMESPACE = 'NetteTranslator-Panel';
 	const LANGUAGE_KEY = 'X-NetteTranslator-Lang';
@@ -40,15 +41,17 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 		$this->translator = $translator;
 
 		if ($height !== NULL) {
-			if (!is_numeric($height))
+			if (!is_numeric($height)) {
 				throw new \InvalidArgumentException('Panel height has to be a numeric value.');
+			}
 			$this->height = $height;
 		}
 
 		if ($layout !== NULL) {
 			$this->layout = $layout;
-			if ($height === NULL)
+			if ($height === NULL) {
 				$this->height = 500;
+			}
 		}
 
 		$this->processRequest();
@@ -56,6 +59,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 
 	/**
 	 * Return's panel ID.
+	 *
 	 * @return string
 	 */
 	public function getId()
@@ -65,17 +69,20 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 
 	/**
 	 * Returns the code for the panel tab.
+	 *
 	 * @return string
 	 */
 	public function getTab()
 	{
 		ob_start();
 		require __DIR__ . '/tab.phtml';
+
 		return ob_get_clean();
 	}
 
 	/**
 	 * Returns the code for the panel itself.
+	 *
 	 * @return string
 	 */
 	public function getPanel()
@@ -101,13 +108,15 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 			$session['stack'] = $untranslatedStack;
 
 			foreach ($untranslatedStack as $string => $value) {
-				if (!isset($strings[$string]))
+				if (!isset($strings[$string])) {
 					$strings[$string] = FALSE;
+				}
 			}
 		}
 
 		ob_start();
 		require __DIR__ . '/panel.phtml';
+
 		return ob_get_clean();
 	}
 
@@ -139,13 +148,15 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 
 				foreach ($data as $string => $value) {
 					$translator->setTranslation($string, $value, $file);
-					if ($session && isset($stack[$string]))
+					if ($session && isset($stack[$string])) {
 						unset($stack[$string]);
+					}
 				}
 				$translator->save($file);
 
-				if ($session)
+				if ($session) {
 					$session['stack'] = $stack;
+				}
 			}
 			exit;
 		}
@@ -153,6 +164,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 
 	/**
 	 * Return an odrdinal number suffix.
+	 *
 	 * @param string $count
 	 * @return string
 	 */
@@ -174,8 +186,8 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	 * Register this panel
 	 *
 	 * @param NetteTranslator\IEditable $translator
-	 * @param int $layout
-	 * @param int $height
+	 * @param int                       $layout
+	 * @param int                       $height
 	 */
 	public static function register(Nette\DI\Container $container, IEditable $translator, $layout = NULL, $height = NULL)
 	{
