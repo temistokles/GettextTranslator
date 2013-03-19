@@ -57,7 +57,7 @@ class Gettext extends Nette\Object implements IEditable
 	protected $files = array();
 
 	/** @var string */
-	protected $lang = "en";
+	protected $lang;
 
 	/** @var array */
 	private $metadata;
@@ -128,6 +128,8 @@ class Gettext extends Nette\Object implements IEditable
 
 	/**
 	 * Load data
+	 *
+	 * @throws \Nette\InvalidStateException
 	 */
 	protected function loadDictonary()
 	{
@@ -165,6 +167,8 @@ class Gettext extends Nette\Object implements IEditable
 	 * Parse dictionary file
 	 *
 	 * @param string $file file path
+	 * @param        $identifier
+	 * @throws \InvalidArgumentException
 	 */
 	protected function parseFile($file, $identifier)
 	{
@@ -234,6 +238,7 @@ class Gettext extends Nette\Object implements IEditable
 	 * Metadata parser
 	 *
 	 * @param string $input
+	 * @param        $identifier
 	 */
 	private function parseMetadata($input, $identifier)
 	{
@@ -338,6 +343,7 @@ class Gettext extends Nette\Object implements IEditable
 	/**
 	 * Get translations strings
 	 *
+	 * @param null $file
 	 * @return array
 	 */
 	public function getStrings($file = NULL)
@@ -396,6 +402,7 @@ class Gettext extends Nette\Object implements IEditable
 	 *
 	 * @param string|array $message original string(s)
 	 * @param string|array $string  translation string(s)
+	 * @param              $file
 	 */
 	public function setTranslation($message, $string, $file)
 	{
@@ -413,6 +420,10 @@ class Gettext extends Nette\Object implements IEditable
 
 	/**
 	 * Save dictionary
+	 *
+	 * @param $file
+	 * @throws \Nette\InvalidStateException
+	 * @throws \InvalidArgumentException
 	 */
 	public function save($file)
 	{
@@ -442,6 +453,7 @@ class Gettext extends Nette\Object implements IEditable
 	/**
 	 * Generate gettext metadata array
 	 *
+	 * @param $identifier
 	 * @return array
 	 */
 	private function generateMetadata($identifier)
@@ -511,6 +523,7 @@ class Gettext extends Nette\Object implements IEditable
 	 * Build gettext MO file
 	 *
 	 * @param string $file
+	 * @param        $identifier
 	 */
 	private function buildPOFile($file, $identifier)
 	{
@@ -561,6 +574,7 @@ class Gettext extends Nette\Object implements IEditable
 	 * Build gettext MO file
 	 *
 	 * @param string $file
+	 * @param        $identifier
 	 */
 	private function buildMOFile($file, $identifier)
 	{
@@ -625,6 +639,7 @@ class Gettext extends Nette\Object implements IEditable
 	/**
 	 * Sets a new language
 	 *
+	 * @param $lang
 	 * @return NetteTranslator\Gettext (supports fluent interface)
 	 */
 	public function setLang($lang)
