@@ -657,4 +657,5 @@ class Gettext extends Nette\Object implements IEditable
 
 		return $this;
 	}
+
 }
