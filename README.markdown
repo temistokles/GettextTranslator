@@ -10,19 +10,19 @@ Actual info and manual: http://wiki.nette.org/cs/cookbook/zprovozneni-prekladace
 
 config.neon
 ----
-    netteTranslator:
-        lang: cs
-        files:
-            front: %appDir%/lang
+    common:
+        netteTranslator:
+            lang: cs
+            files:
+                front: %appDir%/lang
 
 Bootstrap.php
 ----
-    // this is new
     $configurator->onCompile[] = function ($configurator, $compiler) {
         $compiler->addExtension('netteTranslator', new NetteTranslator\NetteTranslatorExtension);
     };
     
-    // put new lines the following line
+    // put previous 3 new lines before the following line
     $container = $configurator->createContainer();
 
 BasePresenter.php
@@ -50,12 +50,12 @@ Basic usage + language change
     {
     	$template = parent::createTemplate($class);
     
-    	// pokud není nastaven, použijeme defaultní z configu
+    	// if lang is not set, we get it from translator (config)
     	if (!isset($this->lang)) {
     		$this->lang = $this->translator->getLang();
     	}
     
-    	$this->translator->setLang($this->lang); // nastavíme jazyk
+    	$this->translator->setLang($this->lang); // set the current lang
     	$template->setTranslator($this->translator);
     
     	return $template;
