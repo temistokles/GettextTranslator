@@ -19,7 +19,7 @@ config.neon
 Bootstrap.php
 ----
     $configurator->onCompile[] = function ($configurator, $compiler) {
-        $compiler->addExtension('netteTranslator', new NetteTranslator\NetteTranslatorExtension);
+        $compiler->addExtension('netteTranslator', new NetteTranslator\DI\NetteTranslatorExtension);
     };
     
     // put previous 3 new lines before the following line
