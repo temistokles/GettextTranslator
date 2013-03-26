@@ -56,7 +56,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 
 
 
-	public function __construct(Nette\Http\Session $session, Nette\Caching\Storages\FileStorage $cacheStorage, Nette\Http\Response $httpResponse)
+	public function __construct(Nette\Http\Session $session, Nette\Caching\IStorage $cacheStorage, Nette\Http\Response $httpResponse)
 	{
 		$this->sessionStorage = $session->getSection(self::$namespace);
 		$this->cache = new Nette\Caching\Cache($cacheStorage, self::$namespace);
