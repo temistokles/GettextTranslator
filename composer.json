@@ -1,6 +1,6 @@
 {
 	"name": "schmutzka/nettetranslator",
-	"description": "Simple translator for Nette (PHP framework).",
+	"description": "Translator for Nette (PHP framework).",
 	"keywords": ["nette", "translator"],
 	"homepage": "http://pla.nette.org/cs/zprovozneni-prekladace-nettetranslator",
 	"authors": [
@@ -10,7 +10,7 @@
 		},
 		{
 			"name": "Tomáš Votruba",
-			"homepage": "http://www.sleeper.cz/"
+			"homepage": "http://www.schmutzka.eu"
 		}
 	],
 	"autoload": {
