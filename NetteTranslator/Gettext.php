@@ -50,10 +50,9 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 		'Plural-Forms' => 'nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4 ? 1 : 2));',
 		'X-Poedit-Language' => NULL,
 		'X-Poedit-Country' => NULL,
-		'X-Poedit-SourceCharset' =>NULL,
+		'X-Poedit-SourceCharset' => NULL,
 		'X-Poedit-KeywordsList' => NULL
 	);
-
 
 
 	public function __construct(Nette\Http\Session $session, Nette\Caching\IStorage $cacheStorage, Nette\Http\Response $httpResponse)
@@ -453,7 +452,9 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 		}
 
 		if ($this->useCache) {
-			$cache = $this->cache->clean(array(\Nette\Caching\Cache::TAGS => 'dictionary-' . $this->lang));
+			$this->cache->clean(array(
+				Nette\Caching\Cache::TAGS => 'dictionary-' . $this->lang
+			));
 		}
 	}
 
