@@ -15,7 +15,6 @@ config.neon
         files:
             front: %appDir%/lang
 		# optional with defaults
-		useCache: FALSE
 		layout: horizontal # or: vertical
 		height: 450
 
@@ -70,12 +69,12 @@ Basic usage + language change
     {
     	$template = parent::createTemplate($class);
     
-    	// pokud není nastaven, použijeme defaultní z configu
+    	// if not set, the default language will be used
     	if (!isset($this->lang)) {
     		$this->lang = $this->translator->getLang();
     	}
     
-    	$this->translator->setLang($this->lang); // nastavíme jazyk
+    	$this->translator->setLang($this->lang);
     	$template->setTranslator($this->translator);
     
     	return $template;

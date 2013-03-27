@@ -10,7 +10,6 @@ class Extension extends Nette\Config\CompilerExtension
 	private $defaults = array(
 		'lang' => 'en',
 		'files' => array(),
-		'useCache' => FALSE,
 		'layout' => 'horizontal',
 		'height' => 450
 	);
@@ -19,13 +18,14 @@ class Extension extends Nette\Config\CompilerExtension
 	public function loadConfiguration()
 	{
 		$config = $this->getConfig($this->defaults);
+
 		$builder = $this->getContainerBuilder();
 
 		$translator = $builder->addDefinition($this->prefix('translator'));
 
 		$translator->setClass('NetteTranslator\Gettext', array('@session', '@cacheStorage', '@httpResponse'));
 		$translator->addSetup('setLang', $config['lang']);
-		$translator->addSetup('setCacheUse', $config['useCache']);
+		$translator->addSetup('setCacheUse', $config["productionMode"]);
 		foreach ($config["files"] as $id => $file) {
 			$translator->addSetup('addFile', $file, $id);
 		}

@@ -20,7 +20,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 	protected $dictionary = array();
 
 	/** @var bool */
-	private $useCache = FALSE;
+	private $useCache;
 
 	/** @var bool */
 	private $loaded = FALSE;
