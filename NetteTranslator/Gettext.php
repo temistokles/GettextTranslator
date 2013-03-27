@@ -14,7 +14,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 	protected $files = array();
 
 	/** @var string */
-	protected $lang = 'en';
+	protected $lang;
 
 	/** @var array<string|array> */
 	protected $dictionary = array();
