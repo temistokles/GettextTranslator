@@ -24,7 +24,7 @@ Bootstrap.php
 ----
     // this is new
     $configurator->onCompile[] = function ($configurator, $compiler) {
-        $compiler->addExtension('netteTranslator', new NetteTranslator\NetteTranslatorExtension);
+        $compiler->addExtension('netteTranslator', new NetteTranslator\DI\Extension);
     };
     
     // put new lines the following line
@@ -36,7 +36,7 @@ Or you can use *extensions* part in *config.neon* since **Nette 2.1-dev** instea
 **config.neon**
 
 	extensions:
-		netteTranslator: NetteTranslator\NetteTranslatorExtension
+		netteTranslator: NetteTranslator\DI\Extension
     
 
 ---
@@ -88,7 +88,7 @@ Basic usage + language change
 **Authors in alphabetic order**
 
 - Josef Kufner (jk@frozen-doe.net)
-- Miroslav Paulík
+- Miroslav Paulík (https://github.com/castamir)
 - Roman Sklenář (http://romansklenar.cz)
 - Miroslav Smetana
 - Jan Smitka
