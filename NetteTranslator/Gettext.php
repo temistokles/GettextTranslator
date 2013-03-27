@@ -129,7 +129,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 	 * @param bool  $mode
 	 * @return this
 	 */
-	public function setProductionMode($mode = FALSE)
+	public function setProductionMode($mode)
 	{
 		$this->productionMode = (bool) $mode;
 		return $this;
