@@ -484,7 +484,7 @@ var translationPanel = {
 			}
 		}
 		xmlHttp.open("POST", <?php echo json_encode($this->application->getPresenter()->link('this')); ?>, true);
-		xmlHttp.setRequestHeader('<?php echo static::XHR_HEADER ?>', 'devel');
+		xmlHttp.setRequestHeader('<?php echo $this->xhrHeader ?>', 'devel');
 		xmlHttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 		xmlHttp.send(JSON.stringify(data));
 	},
