@@ -25,7 +25,7 @@ class Extension extends Nette\Config\CompilerExtension
 
 		$translator->setClass('NetteTranslator\Gettext', array('@session', '@cacheStorage', '@httpResponse'));
 		$translator->addSetup('setLang', $config['lang']);
-		$translator->addSetup('setProductionMode', $config['productionMode']);
+		$translator->addSetup('setProductionMode', $builder->expand("%productionMode%"));
 		foreach ($config['files'] as $id => $file) {
 			$translator->addSetup('addFile', $file, $id);
 		}

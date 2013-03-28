@@ -26,7 +26,7 @@ Bootstrap.php
         $compiler->addExtension('netteTranslator', new NetteTranslator\DI\Extension);
     };
     
-    // put new lines the following line
+    // put new lines before the following line
     $container = $configurator->createContainer();
 
 
