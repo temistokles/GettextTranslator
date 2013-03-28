@@ -20,7 +20,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 	protected $dictionary = array();
 
 	/** @var bool */
-	private $useCache = FALSE;
+	private $productionMode;
 
 	/** @var bool */
 	private $loaded = FALSE;
@@ -125,13 +125,13 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 
 
 	/**
-	 * Set cache use
-	 * @param bool
+	 * Set production mode (has influence on cache usage)
+	 * @param bool  $mode
 	 * @return this
 	 */
-	public function setCacheUse($use = FALSE)
+	public function setProductionMode($mode)
 	{
-		$this->useCache = (bool) $use;
+		$this->productionMode = (bool) $mode;
 		return $this;
 	}
 
@@ -146,7 +146,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 				throw new Nette\InvalidStateException("Language file(s) must be defined.");
 			}
 
-			if ($this->useCache && isset($cache['dictionary-' . $this->lang])) {
+			if ($this->productionMode && isset($cache['dictionary-' . $this->lang])) {
 				$this->dictionary = $cache['dictionary-' . $this->lang];
 
 			} else {
@@ -159,7 +159,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 					}
 				}
 
-				if ($this->useCache) {
+				if ($this->productionMode) {
 					$this->cache->save('dictionary-' . $this->lang, $this->dictionary, array(
 						'expire' => time() * 60 * 60 * 2,
 						'files' => $files,
@@ -451,7 +451,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 			unset($this->sessionStorage->newStrings[$this->lang]);
 		}
 
-		if ($this->useCache) {
+		if ($this->productionMode) {
 			$this->cache->clean(array(
 				Nette\Caching\Cache::TAGS => 'dictionary-' . $this->lang
 			));
