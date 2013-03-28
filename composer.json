@@ -2,7 +2,8 @@
 	"name": "schmutzka/nettetranslator",
 	"description": "Translator for Nette (PHP framework).",
 	"keywords": ["nette", "translator"],
-	"homepage": "http://pla.nette.org/cs/zprovozneni-prekladace-nettetranslator",
+	"homepage": "http://pla.nette.org/en/nettetranslator-installation",
+	"licence": "BSD-3-Clause",
 	"authors": [
 		{
 			"name": "Patrik Votoček",
