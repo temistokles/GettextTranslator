@@ -112,7 +112,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 	 */
 	public function setLang($lang)
 	{
-		if (empty($this->lang)) {
+		if (empty($lang)) {
 			throw new Nette\InvalidStateException('Language must be nonempty string.');
 		}
 
