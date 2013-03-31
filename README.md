@@ -6,7 +6,7 @@ Nette Translator is tool that enables simple and user friendly translation of yo
 Installation and usage
 ---
 
-See actual info and manual: [http://pla.nette.org/en/nettetranslator-installation](http://pla.nette.org/en/nettetranslator-installation)
+See actual info and manual: [http://addons.nette.org/en/nette-translator](http://addons.nette.org/en/nette-translator)
 
 
 Authors in alphabetic order
