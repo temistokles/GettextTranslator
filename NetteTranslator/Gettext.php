@@ -1,6 +1,6 @@
 <?php
 
-namespace NetteTranslator;
+namespace GettextTranslator;
 
 use Nette;
 use Nette\Utils\Strings;
@@ -8,7 +8,7 @@ use Nette\Utils\Strings;
 class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 {
 	/* @var string */
-	public static $namespace = 'NetteTranslator-Gettext';
+	public static $namespace = 'GettextTranslator-Gettext';
 
 	/** @var array */
 	protected $files = array();
@@ -94,7 +94,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 	/**
 	 * Get current language
 	 * @return string
-	 * @throws \Nette\InvalidStateException
+	 * @throws Nette\InvalidStateException
 	 */
 	public function getLang()
 	{
@@ -459,7 +459,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 
 		if ($this->productionMode) {
 			$this->cache->clean(array(
-				Nette\Caching\Cache::TAGS => 'dictionary-' . $this->lang
+				'tags' => 'dictionary-' . $this->lang
 			));
 		}
 	}

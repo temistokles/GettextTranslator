@@ -1,6 +1,6 @@
 <?php
 
-namespace NetteTranslator;
+namespace GettextTranslator;
 
 use Nette;
 
@@ -10,10 +10,10 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	private $xhrHeader = 'X-Translation-Client';
 
 	/** @var string */
-	private $languageKey = 'X-NetteTranslator-Lang';
+	private $languageKey = 'X-GettextTranslator-Lang';
 
 	/** @var string */
-	private $fileKey = 'X-NetteTranslator-File';
+	private $fileKey = 'X-GettextTranslator-File';
 
 	/** @var string */
 	private $layout;
@@ -24,7 +24,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	/** @var Nette\Application\Application */
 	private $application;
 
-	/** @var NetteTranslator\Gettext */
+	/** @var GettextTranslator\Gettext */
 	private $translator;
 
 	/** @var Nette\Http\SessionSection */
@@ -36,7 +36,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 
 	/**
 	 * @param Nette\Application\Application
-	 * @param Nette\Translator\Gettext 
+	 * @param Gettext\Translator\Gettext 
 	 * @param Nette\Http\Session
 	 * @param Nette\Http\Request
 	 * @param string
@@ -171,7 +171,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	/**
 	 * Register this panel
 	 * @param Nette\Application\Application
-	 * @param NetteTranslator\Gettext
+	 * @param GettextTranslator\Gettext
 	 * @param Nette\Http\Session
 	 * @param Nette\Http\Request
 	 * @param int $layout
