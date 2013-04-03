@@ -235,8 +235,8 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 					continue;
 				}
 
-				$original = explode('\0', $original);
-				$translation = explode('\0', $translation);
+				$original = explode("\0", $original);
+				$translation = explode("\0", $translation);
 
 				$key = isset($original[0]) ? $original[0] : $original;
 				$this->dictionary[$key]['original'] = $original;
