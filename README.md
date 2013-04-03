@@ -1,12 +1,12 @@
-Nette Translator
+Gettext Translator
 ===
 
-Nette Translator is tool that enables simple and user friendly translation of your texts via panel in debug bar. It works with the newest Nette 2.0. No need to edit or operate with .po/.mo files.
+Gettext Translator is tool that enables simple and user friendly translation of your texts via panel in debug bar. It works with the newest Nette 2.0. No need to edit or operate with .po/.mo files.
 
 Installation and usage
 ---
 
-See actual info and manual: [http://addons.nette.org/en/nette-translator](http://addons.nette.org/en/nette-translator)
+See actual info and manual: [http://addons.nette.org/en/gettext-translator](http://addons.nette.org/en/gettext-translator)
 
 
 Authors in alphabetic order
