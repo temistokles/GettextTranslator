@@ -1,8 +1,8 @@
 {
-	"name": "schmutzka/nettetranslator",
+	"name": "schmutzka/gettexttranslator",
 	"description": "Translator for Nette (PHP framework).",
-	"keywords": ["nette", "translator"],
-	"homepage": "http://pla.nette.org/en/nettetranslator-installation",
+	"keywords": ["nette", "translator", "gettext"],
+	"homepage": "http://addons.nette.org/en/gettext-translator",
 	"licence": "BSD-3-Clause",
 	"authors": [
 		{
@@ -15,7 +15,7 @@
 		}
 	],
 	"autoload": {
-		"classmap": ["NetteTranslator/"]
+		"classmap": ["GettextTranslator/"]
 	},
 	"require": {
 		"php": ">=5.3.0",
