@@ -14,7 +14,7 @@
 		}
 	],
 	"autoload": {
-		"classmap": ["NetteTranslator/"]
+		"classmap": ["GettextTranslator/"]
 	},
 	"require": {
 		"php": ">=5.3.0",

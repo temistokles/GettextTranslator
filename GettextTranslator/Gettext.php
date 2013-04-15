@@ -8,7 +8,7 @@ use Nette\Utils\Strings;
 class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 {
 	/* @var string */
-	public static $namespace = 'NetteTranslator-Gettext';
+	public static $namespace = 'GettextTranslator-Gettext';
 
 	/** @var array */
 	protected $files = array();
