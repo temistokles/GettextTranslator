@@ -1,6 +1,6 @@
 <?php
 
-namespace NetteTranslator;
+namespace GettextTranslator;
 
 use Nette;
 use Nette\Utils\Strings;
@@ -8,7 +8,7 @@ use Nette\Utils\Strings;
 class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 {
 	/* @var string */
-	public static $namespace = 'NetteTranslator-Gettext';
+	public static $namespace = 'GettextTranslator-Gettext';
 
 	/** @var array */
 	protected $files = array();
@@ -16,7 +16,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 	/** @var string */
 	protected $lang;
 
-	/** @var array<string|array> */
+	/** @var array */
 	protected $dictionary = array();
 
 	/** @var bool */
@@ -57,12 +57,12 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 
 	public function __construct(Nette\Http\Session $session, Nette\Caching\IStorage $cacheStorage, Nette\Http\Response $httpResponse)
 	{
-		$this->sessionStorage = $session->getSection(self::$namespace);
+		$this->sessionStorage = $sessionStorage = $session->getSection(self::$namespace);
 		$this->cache = new Nette\Caching\Cache($cacheStorage, self::$namespace);
 		$this->httpResponse = $httpResponse;
 
-		if (!isset($this->sessionStorage->newStrings) || !is_array($this->sessionStorage->newStrings)) {
-			$this->sessionStorage->newStrings = array();
+		if (!isset($sessionStorage->newStrings) || !is_array($sessionStorage->newStrings)) {
+			$sessionStorage->newStrings = array();
 		}
 	}
 
@@ -94,7 +94,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 	/**
 	 * Get current language
 	 * @return string
-	 * @throws \Nette\InvalidStateException
+	 * @throws Nette\InvalidStateException
 	 */
 	public function getLang()
 	{
@@ -112,6 +112,10 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 	 */
 	public function setLang($lang)
 	{
+		if (empty($lang)) {
+			throw new Nette\InvalidStateException('Language must be nonempty string.');
+		}
+
 		if ($this->lang === $lang) {
 			return;
 		}
@@ -143,7 +147,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 	{
 		if (!$this->loaded) {
 			if (empty($this->files)) {
-				throw new Nette\InvalidStateException("Language file(s) must be defined.");
+				throw new Nette\InvalidStateException('Language file(s) must be defined.');
 			}
 
 			if ($this->productionMode && isset($cache['dictionary-' . $this->lang])) {
@@ -192,10 +196,10 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 		};
 
 		$input = $read(1);
-		if (Strings::lower(substr(dechex($input[1]), -8)) == "950412de") {
+		if (Strings::lower(substr(dechex($input[1]), -8)) == '950412de') {
 			$endian = FALSE;
 
-		} elseif (Strings::lower(substr(dechex($input[1]), -8)) == "de120495") {
+		} elseif (Strings::lower(substr(dechex($input[1]), -8)) == 'de120495') {
 			$endian = TRUE;
 
 		} else {
@@ -224,22 +228,24 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 				$original = @fread($f, $orignalTmp[$i * 2 + 1]);
 
 			} else {
-				$original = "";
+				$original = '';
 			}
 
 			if ($translationTmp[$i * 2 + 1] != 0) {
 				fseek($f, $translationTmp[$i * 2 + 2]);
 				$translation = fread($f, $translationTmp[$i * 2 + 1]);
-				if ($original === "") {
+				if ($original === '') {
 					$this->parseMetadata($translation, $identifier);
 					continue;
 				}
 
 				$original = explode("\0", $original);
 				$translation = explode("\0", $translation);
-				$this->dictionary[isset($original[0]) ? $original[0] : $original]['original'] = $original;
-				$this->dictionary[isset($original[0]) ? $original[0] : $original]['translation'] = $translation;
-				$this->dictionary[isset($original[0]) ? $original[0] : $original]['file'] = $identifier;
+
+				$key = isset($original[0]) ? $original[0] : $original;
+				$this->dictionary[$key]['original'] = $original;
+				$this->dictionary[$key]['translation'] = $translation;
+				$this->dictionary[$key]['file'] = $identifier;
 			}
 		}
 	}
@@ -322,11 +328,11 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 				$args = current($args);
 			}
 
-			$message = str_replace(array("%label", "%name", "%value"), array("#label", "#name", "#value"), $message);
+			$message = str_replace(array('%label', '%name', '%value'), array('#label', '#name', '#value'), $message);
 			if (count($args) > 0 && $args != NULL) {
 				$message = vsprintf($message, $args);
 			}
-			$message = str_replace(array("#label", "#name", "#value"), array("%label", "%name", "%value"), $message);
+			$message = str_replace(array('#label', '#name', '#value'), array('%label', '%name', '%value'), $message);
 		}
 
 		return $message;
@@ -363,14 +369,14 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 
 		if (isset($this->sessionStorage->newStrings[$this->lang])) {
 			foreach (array_keys($this->sessionStorage->newStrings[$this->lang]) as $original) {
-				if (trim($original) != "") {
+				if (trim($original) != '') {
 					$newStrings[$original] = FALSE;
 				}
 			}
 		}
 
 		foreach ($this->dictionary as $original => $data) {
-			if (trim($original) != "") {
+			if (trim($original) != '') {
 				if ($file && $data['file'] === $file) {
 					$result[$original] = $data['translation'];
 
@@ -434,7 +440,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 	public function save($file)
 	{
 		if (!$this->loaded) {
-			throw new Nette\InvalidStateException("Nothing to save, translations are not loaded.");
+			throw new Nette\InvalidStateException('Nothing to save, translations are not loaded.');
 		}
 
 		if (!isset($this->files[$file])) {
@@ -453,7 +459,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 
 		if ($this->productionMode) {
 			$this->cache->clean(array(
-				Nette\Caching\Cache::TAGS => 'dictionary-' . $this->lang
+				'tags' => 'dictionary-' . $this->lang
 			));
 		}
 	}
@@ -498,13 +504,17 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 			}
 
 			$po .= 'msgid "' . str_replace(array('"'), array('\"'), $message) . '"' . "\n";
+
 			if (is_array($data['original']) && count($data['original']) > 1) {
 				$po .= 'msgid_plural "' . str_replace(array('"'), array('\"'), end($data['original'])) . '"' . "\n";
 			}
+
 			if (!is_array($data['translation'])) {
 				$po .= 'msgstr "' . str_replace(array('"'), array('\"'), $data['translation']) . '"' . "\n";
+
 			} elseif (count($data['translation']) < 2) {
 				$po .= 'msgstr "' . str_replace(array('"'), array('\"'), current($data['translation'])) . '"' . "\n";
+
 			} else {
 				$i = 0;
 				foreach ($data['translation'] as $string) {
@@ -512,6 +522,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 					$i++;
 				}
 			}
+
 			$po .= "\n";
 		}
 
@@ -519,6 +530,7 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 			foreach ($this->sessionStorage->newStrings[$this->lang] as $original) {
 				if (trim(current($original)) != "" && !\array_key_exists(current($original), $this->dictionary)) {
 					$po .= 'msgid "' . str_replace(array('"'), array('\"'), current($original)) . '"' . "\n";
+
 					if (count($original) > 1) {
 						$po .= 'msgid_plural "' . str_replace(array('"'), array('\"'), end($original)) . '"' . "\n";
 					}

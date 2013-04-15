@@ -1,14 +1,19 @@
 <?php
 
-namespace NetteTranslator;
+namespace GettextTranslator;
 
 use Nette;
 
 class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 {
-	const XHR_HEADER = 'X-Translation-Client';
-	const LANGUAGE_KEY = 'X-NetteTranslator-Lang';
-	const FILE_KEY = 'X-NetteTranslator-File';
+	/** @var string */
+	private $xhrHeader = 'X-Translation-Client';
+
+	/** @var string */
+	private $languageKey = 'X-GettextTranslator-Lang';
+
+	/** @var string */
+	private $fileKey = 'X-GettextTranslator-File';
 
 	/** @var string */
 	private $layout;
@@ -19,7 +24,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	/** @var Nette\Application\Application */
 	private $application;
 
-	/** @var NetteTranslator\Gettext */
+	/** @var GettextTranslator\Gettext */
 	private $translator;
 
 	/** @var Nette\Http\SessionSection */
@@ -31,7 +36,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 
 	/**
 	 * @param Nette\Application\Application
-	 * @param Nette\Translator\Gettext 
+	 * @param Gettext\Translator\Gettext 
 	 * @param Nette\Http\Session
 	 * @param Nette\Http\Request
 	 * @param string
@@ -61,7 +66,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 
 
 	/**
-	 * Returns the code for the panel tab.
+	 * Returns the code for the panel tab
 	 * @return string
 	 */
 	public function getTab()
@@ -73,7 +78,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 
 
 	/**
-	 * Returns the code for the panel itself.
+	 * Returns the code for the panel itself
 	 * @return string
 	 */
 	public function getPanel()
@@ -95,7 +100,6 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 				$strings[$string] = FALSE;
 			}
 		}
-
 		
 		$translator = $this->translator;
 
@@ -110,7 +114,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	 */
 	private function processRequest()
 	{
-		if ($this->httpRequest->isPost() && $this->httpRequest->isAjax() && $this->httpRequest->getHeader(self::XHR_HEADER)) {
+		if ($this->httpRequest->isPost() && $this->httpRequest->isAjax() && $this->httpRequest->getHeader($this->xhrHeader)) {
 			$data = json_decode(file_get_contents('php://input'));
 
 			if ($data) {
@@ -118,9 +122,9 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 					$stack = isset($this->sessionStorage['stack']) ? $this->sessionStorage['stack'] : array();
 				}
 
-				$this->translator->lang = $data->{self::LANGUAGE_KEY};
-				$file = $data->{self::FILE_KEY};
-				unset($data->{self::LANGUAGE_KEY}, $data->{self::FILE_KEY});
+				$this->translator->lang = $data->{$this->languageKey};
+				$file = $data->{$this->fileKey};
+				unset($data->{$this->languageKey}, $data->{$this->fileKey});
 
 				foreach ($data as $string => $value) {
 					$this->translator->setTranslation($string, $value, $file);
@@ -167,7 +171,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	/**
 	 * Register this panel
 	 * @param Nette\Application\Application
-	 * @param NetteTranslator\Gettext
+	 * @param GettextTranslator\Gettext
 	 * @param Nette\Http\Session
 	 * @param Nette\Http\Request
 	 * @param int $layout
@@ -186,15 +190,14 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	 */
 	private function getActiveFile($files)
 	{
-		$requestCount = count($this->application->requests);
-		// $presenterName = ($requestCount > 0) ? $this->requests[$requestCount - 1]->presenterName : NULL;
-		$presenterName = $this->application->presenter->name;
+		$tmp = explode(':', $this->application->presenter->name);
 
-		$module = (!$presenterName) ?: strtolower(str_replace(':', '.', ltrim(substr($presenterName, 0, -(strlen(strrchr($presenterName, ':')))), ':')));
+		if (count($tmp) >= 2 && $module = strtolower($tmp[0])) {
+			return $module;
 
-		$activeFile = (in_array($module, $files)) ? $module : $files[0];
-
-		return $activeFile;
+		} else {
+			return $files[0];
+		}
 	}
 
 }
