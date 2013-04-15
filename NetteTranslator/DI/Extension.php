@@ -23,14 +23,14 @@ class Extension extends Nette\Config\CompilerExtension
 
 		$translator = $builder->addDefinition($this->prefix('translator'));
 
-		$translator->setClass('GettextTranslator\Gettext', array('@session', '@cacheStorage', '@httpResponse'));
+		$translator->setClass('NetteTranslator\Gettext', array('@session', '@cacheStorage', '@httpResponse'));
 		$translator->addSetup('setLang', $config['lang']);
 		$translator->addSetup('setProductionMode', $builder->expand("%productionMode%"));
 		foreach ($config['files'] as $id => $file) {
 			$translator->addSetup('addFile', $file, $id);
 		}
 
-		$translator->addSetup('GettextTranslator\Panel::register', array('@application', '@self', '@session', '@httpRequest', $config['layout'], $config['height']));
+		$translator->addSetup('NetteTranslator\Panel::register', array('@application', '@self', '@session', '@httpRequest', $config['layout'], $config['height']));
 	}
 
 }

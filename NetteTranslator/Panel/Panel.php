@@ -7,8 +7,8 @@ use Nette;
 class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 {
 	const XHR_HEADER = 'X-Translation-Client';
-	const LANGUAGE_KEY = 'X-GettextTranslator-Lang';
-	const FILE_KEY = 'X-GettextTranslator-File';
+	const LANGUAGE_KEY = 'X-NetteTranslator-Lang';
+	const FILE_KEY = 'X-NetteTranslator-File';
 
 	/** @var string */
 	private $layout;
@@ -167,7 +167,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 	/**
 	 * Register this panel
 	 * @param Nette\Application\Application
-	 * @param GettextTranslator\Gettext
+	 * @param NetteTranslator\Gettext
 	 * @param Nette\Http\Session
 	 * @param Nette\Http\Request
 	 * @param int $layout
