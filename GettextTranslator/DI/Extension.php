@@ -4,7 +4,7 @@ namespace GettextTranslator\DI;
 
 use Nette;
 
-class Extension extends Nette\Config\CompilerExtension
+class Extension extends Nette\DI\CompilerExtension
 {
 	/** @var array */
 	private $defaults = array(
