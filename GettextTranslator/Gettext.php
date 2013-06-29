@@ -597,5 +597,3 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 	}
 
 }
-
-require_once __DIR__ . '/shortcuts.php';
