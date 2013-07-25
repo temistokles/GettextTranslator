@@ -6,7 +6,9 @@ Gettext Translator is tool that enables simple and user friendly translation of 
 Installation and usage
 ---
 
-See actual info and manual: [http://addons.nette.org/en/gettext-translator](http://addons.nette.org/en/gettext-translator)
+See actual info and manual: [http://addons2.nette.org/schmutzka/gettexttranslator](http://addons2.nette.org/schmutzka/gettexttranslator)
+
+
 
 
 Authors in alphabetic order
