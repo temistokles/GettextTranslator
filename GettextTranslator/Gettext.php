@@ -113,20 +113,19 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 	 * Set supported languages
 	 * @return this
 	 */
-        public function setSupportedLangs($supportedLangs) {
-            \Nette\Diagnostics\Debugger::barDump($supportedLangs);
+        public function setSupportedLangs($supportedLangs)
+        {
+                if (is_array($supportedLangs)) {
+                        $this->supportedLangs = $supportedLangs;
+                }
+                elseif (is_string($supportedLangs)) {
+                        $this->supportedLangs = array($supportedLangs);
+                }
+                else {
+                        $this->supportedLangs = null;
+                }
 
-            if (is_array($supportedLangs)) {
-                $this->supportedLangs = $supportedLangs;
-            }
-            elseif (is_string($supportedLangs)) {
-                $this->supportedLangs = array($supportedLangs);
-            }
-            else {
-                $this->supportedLangs = null;
-            }
-            
-            return $this;
+                return $this;
         }
         
 
@@ -136,9 +135,6 @@ class Gettext extends Nette\Object implements Nette\Localization\ITranslator
 	 */
 	public function setLang($lang)
 	{
-            
-            //\Nette\Diagnostics\Debugger::barDump($lang);
-            //\Nette\Diagnostics\Debugger::barDump($this->supportedLangs);
 		if (empty($lang)) {
 			throw new Nette\InvalidStateException('Language must be nonempty string.');
 		}
