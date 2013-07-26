@@ -27,7 +27,7 @@ class Extension extends Nette\DI\CompilerExtension
 
 		$translator = $builder->addDefinition($this->prefix('translator'));
 		$translator->setClass('GettextTranslator\Gettext', array('@session', '@cacheStorage', '@httpResponse'));
-		$translator->addSetup('setSupportedLangs', $config['supportedLangs']);
+		$translator->addSetup('setSupportedLangs', array($config['supportedLangs']));
 		$translator->addSetup('setLang', $config['lang']);
 		$translator->addSetup('setProductionMode', $builder->expand('%productionMode%'));
 
